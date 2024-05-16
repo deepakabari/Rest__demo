@@ -1,0 +1,50 @@
+{
+    "name": "rest_api_demo",
+    "version": "1.0.0",
+    "description": "This is demo project demonstrate rest apis",
+    "main": "src/app.ts",
+    "type": "commonjs",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon src/app.ts",
+        "dev": "ts-node-dev --no-notify --clear --debounce 500 src/app.ts",
+        "build": "tsc",
+        "migrate": "npx sequelize-cli db:migrate",
+        "seed": "npx sequelize-cli db:seed:all",
+        "format:check": "prettier --check .",
+        "format:write": "prettier --write .",
+        "lint:check": "eslint .",
+        "lint:fix": "eslint --fix ."
+    },
+    "author": "Deep Akabari",
+    "license": "MIT",
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "body-parser": "^1.20.2",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "jsonwebtoken": "^9.0.2",
+        "mysql2": "^3.9.7",
+        "sequelize": "^6.37.3",
+        "sequelize-typescript": "^2.1.6",
+        "winston": "^3.13.0"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^5.0.2",
+        "@types/express": "^4.17.21",
+        "@types/jsonwebtoken": "^9.0.6",
+        "@typescript-eslint/eslint-plugin": "^6.21.0",
+        "eslint": "^8.57.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-config-standard-with-typescript": "^43.0.1",
+        "eslint-plugin-import": "^2.29.1",
+        "eslint-plugin-n": "^16.6.2",
+        "eslint-plugin-promise": "^6.1.1",
+        "nodemon": "^3.1.0",
+        "prettier": "^3.2.5",
+        "sequelize-cli": "^6.6.2",
+        "ts-node": "^10.9.2",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.4.5"
+    }
+}
