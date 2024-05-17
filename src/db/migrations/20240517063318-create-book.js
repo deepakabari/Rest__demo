@@ -2,52 +2,37 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('User', {
+        await queryInterface.createTable('Book', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            email: {
-                type: Sequelize.STRING,
-                allowNullL: false,
-            },
-            password: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
-            firstName: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
-            lastName: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
-            status: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
-            phoneNumber: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
-            roleId: {
+            userId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
             },
-            role: {
+            name: {
                 type: Sequelize.STRING,
-                allowNull: false
+                allowNull: false,
+                unique: true,
             },
-            resetToken: {
+            image: {
                 type: Sequelize.STRING,
-                allowNull: true,
+                allowNull: false,
             },
-            expireToken: {
-                type: Sequelize.DATE,
-                allowNull: true,
+            description: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
+            price: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+            },
+            categoryId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
             },
             createdAt: {
                 type: Sequelize.DATE,
@@ -64,6 +49,6 @@ module.exports = {
         });
     },
     async down(queryInterface) {
-        await queryInterface.dropTable('User');
+        await queryInterface.dropTable('Book');
     },
 };

@@ -1,11 +1,13 @@
 import { DataTypes } from 'sequelize';
-import { Table, Column, Model } from 'sequelize-typescript';
+import { Table, Column, Model, HasMany } from 'sequelize-typescript';
+import { UserAttributes, UserCreationAttributes } from '../../interfaces/index';
+import Book from './book.model';
 
 @Table({
     timestamps: true,
     paranoid: true,
 })
-class User extends Model {
+class User extends Model<UserAttributes, UserCreationAttributes> {
     @Column({
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -51,6 +53,18 @@ class User extends Model {
     phoneNumber: string;
 
     @Column({
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    })
+    roleId: number;
+
+    @Column({
+        type: DataTypes.STRING,
+        allowNull: false,
+    })
+    role: string;
+
+    @Column({
         type: DataTypes.STRING,
         allowNull: true,
     })
@@ -61,6 +75,11 @@ class User extends Model {
         allowNull: true,
     })
     expireToken: string;
+
+    @HasMany(() => Book, {
+        foreignKey: 'userId'
+    })
+    books: Book[];
 }
 
 export default User;

@@ -1,9 +1,12 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
+import path from 'path';
 import dotenv from 'dotenv';
 import { logger } from './utils/logger';
 import { dbConnection } from './db/config';
 import router from './routes';
 import bodyParser from 'body-parser';
+import { errors } from 'celebrate';
+import { errorHandler } from './utils/errorHandler';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -11,6 +14,8 @@ dotenv.config();
 // Initialize express app
 const app: Express = express();
 const PORT = process.env.PORT || 3000;
+
+app.use('/images', express.static(path.join(__dirname, 'src', 'public')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -41,6 +46,9 @@ app.use(router);
 app.get('/', (req: Request, res: Response) => {
     res.send('API is working...');
 });
+
+app.use(errors());
+app.use(errorHandler)
 
 // Establish database connection
 dbConnection();

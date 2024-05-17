@@ -1,5 +1,6 @@
 import { Optional } from 'sequelize';
 
+// Define an interface for User attributes
 interface UserAttributes {
     id: number;
     email: string;
@@ -8,13 +9,13 @@ interface UserAttributes {
     lastName: string;
     status: string;
     phoneNumber: string;
+    roleId: number;
+    role: string;
     resetToken?: string | null;
     expireToken?: Date | null;
-    createdAt: Date;
-    updatedAt: Date;
-    deletedAt?: Date | null;
 }
 
+// Define a type for User creation attributes by making 'id' optional
 type UserCreationAttributes = Optional<UserAttributes, 'id'>;
 
 export { UserAttributes, UserCreationAttributes };
