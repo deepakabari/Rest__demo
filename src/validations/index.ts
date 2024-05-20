@@ -1,1 +1,1 @@
-export * from './authSchema.valid'
+export * from './auth.valid'

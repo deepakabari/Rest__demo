@@ -19,7 +19,8 @@ const messageConstant = {
     BOOK_NOT_FOUND: 'Book not found',
     BOOK_ALREADY_EXISTS:
         'Book with same name already exist. Please choose a different name!',
-    BOOK_NAME_UNIQUE: 'The book name must be unique. Please choose a different name.',
+    BOOK_NAME_UNIQUE:
+        'The book name must be unique. Please choose a different name.',
     BAD_REQUEST: 'Bad request',
     VALIDATION_FAILED: 'Validation failed',
     EMAIL_IN_USED: 'Email already in use',
@@ -35,6 +36,17 @@ const messageConstant = {
     EMAIL_NOT_MATCH: 'Email and Confirm Email are not the same',
     PASSWORD_NOT_MATCH: 'Password and Confirm Password are not the same',
     NOT_GET_HASHED_TOKEN: 'Hashed token cannot get, please try again',
+    FILE_NOT_FOUND: 'File not found',
+    ERROR_DOWNLOAD_FILE: 'Error when downloading file',
+    CATEGORY_EXISTS: 'Category already exists.',
+    CATEGORY_CREATED: 'Category created successfully.',
+    CATEGORY_NOT_EXISTS: 'Category not exists.',
+    CATEGORY_UPDATED: 'Category updated successfully.',
+    CATEGORY_NAME_UNIQUE:
+        'The Category name must be unique. Please choose a different name.',
+    CATEGORY_HAS_BOOKS: 'Category has books.',
+    CATEGORY_DELETED: 'Category deleted successfully',
+    CATEGORY_RETRIEVED: 'Category retrieved successfully',
 };
 
 export default messageConstant;

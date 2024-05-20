@@ -1,10 +1,20 @@
+import fs from 'fs';
+import path from 'path';
 import { Controller } from '../../interfaces';
 import httpCode from '../../constants/http.constant';
 import messageConstant from '../../constants/message.constant';
 import { Book } from '../../db/models';
 import { Order } from 'sequelize';
+import { logger } from '../../utils/logger';
 
-// Controller that retrieves all the books of all creator
+/**
+ * @function getAllBooks
+ * @param req - The request object containing query parameters for sorting and pagination.
+ * @param res - The response object to send back the retrieved books.
+ * @param next - The next middleware function in the stack.
+ * @returns - A JSON response with the status code, message, and data of all books.
+ * @description - Retrieves a list of books with pagination and sorting options.
+ */
 export const getAllBooks: Controller = async (req, res, next) => {
     try {
         // Extract query parameters
@@ -43,6 +53,14 @@ export const getAllBooks: Controller = async (req, res, next) => {
     }
 };
 
+/**
+ * @function getBookById
+ * @param req - The request object containing the book ID as a parameter.
+ * @param res - The response object to send back the retrieved book.
+ * @param next - The next middleware function in the stack.
+ * @returns - A JSON response with the status code, message, and data of the requested book.
+ * @description - Retrieves a single book by its unique identifier.
+ */
 export const getBookById: Controller = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -61,6 +79,14 @@ export const getBookById: Controller = async (req, res, next) => {
     }
 };
 
+/**
+ * @function getBooks
+ * @param req - The request object containing the user's ID to retrieve their books.
+ * @param res - The response object to send back the retrieved books.
+ * @param next - The next middleware function in the stack.
+ * @returns - A JSON response with the status code, message, and data of the user's books.
+ * @description - Retrieves all books associated with the requesting user's ID.
+ */
 export const getBooks: Controller = async (req, res, next) => {
     try {
         const id = req.user.id;
@@ -79,6 +105,14 @@ export const getBooks: Controller = async (req, res, next) => {
     }
 };
 
+/**
+ * @function createBook
+ * @param req - The request object containing the new book's details and the uploaded file.
+ * @param res - The response object to send back the status of the book creation.
+ * @param next - The next middleware function in the stack.
+ * @returns - A JSON response with the status code, message, and data of the newly created book.
+ * @description - Creates a new book entry in the database with the provided details.
+ */
 export const createBook: Controller = async (req, res, next) => {
     try {
         // Destructuring the request body to get book details
@@ -132,6 +166,14 @@ export const createBook: Controller = async (req, res, next) => {
     }
 };
 
+/**
+ * @function updateBook
+ * @param req - The request object containing the book ID and updated details.
+ * @param res - The response object to send back the status of the book update.
+ * @param next - The next middleware function in the stack.
+ * @returns - A JSON response with the status code and message indicating the update status.
+ * @description - Updates an existing book's details in the database.
+ */
 export const updateBook: Controller = async (req, res, next) => {
     try {
         // Getting the book ID from request parameters
@@ -149,6 +191,17 @@ export const updateBook: Controller = async (req, res, next) => {
                 status: httpCode.NOT_FOUND,
                 message: messageConstant.BOOK_NOT_FOUND,
             });
+        }
+
+        if (existingBook.userId !== req.user.id) {
+            return res.status(httpCode.UNAUTHORIZED).json({
+                status: httpCode.UNAUTHORIZED,
+                message: messageConstant.NOT_AUTHORIZED,
+            });
+        }
+
+        if (req.file?.filename !== existingBook.image) {
+            clearImage(existingBook.image);
         }
 
         // Updating the book with new details
@@ -180,6 +233,14 @@ export const updateBook: Controller = async (req, res, next) => {
     }
 };
 
+/**
+ * @function deleteBook
+ * @param req - The request object containing the book ID to be deleted.
+ * @param res - The response object to send back the status of the book deletion.
+ * @param next - The next middleware function in the stack.
+ * @returns - A JSON response with the status code and message indicating the deletion status.
+ * @description - Deletes a book from the database based on its unique identifier.
+ */
 export const deleteBook: Controller = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -195,6 +256,15 @@ export const deleteBook: Controller = async (req, res, next) => {
             });
         }
 
+        if (existingBook.userId !== req.user.id) {
+            return res.status(httpCode.UNAUTHORIZED).json({
+                status: httpCode.UNAUTHORIZED,
+                message: messageConstant.NOT_AUTHORIZED,
+            });
+        }
+
+        clearImage(existingBook.image);
+
         await Book.destroy({
             where: { id },
         });
@@ -206,4 +276,11 @@ export const deleteBook: Controller = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+};
+
+const clearImage = (image: string) => {
+    image = path.join(__dirname, '..', '..', 'public', 'images', image);
+    fs.unlink(image, (err) => {
+        logger.error(err);
+    });
 };

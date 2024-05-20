@@ -6,7 +6,7 @@ import { dbConnection } from './db/config';
 import router from './routes';
 import bodyParser from 'body-parser';
 import { errors } from 'celebrate';
-import { errorHandler } from './utils/errorHandler';
+import { errorHandler } from './middleware/errorHandler';
 
 // Load environment variables from .env file
 dotenv.config();

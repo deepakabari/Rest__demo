@@ -66,7 +66,7 @@ export const login: Controller = async (req, res, next) => {
             return res.json({
                 status: httpCode.OK,
                 message: messageConstant.SUCCESS,
-                token,
+                data: token,
             });
         } else {
             return res.status(httpCode.UNAUTHORIZED).json({
